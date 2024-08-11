@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        .delete:hover{
+            cursor: pointer;
+        }
+        .completed{
+            text-decoration: line-through;
+        }
+    </style>
+    <title>Alpine Todo</title>
+</head>
+<body>
+    <h1>Alpine JS</h1>
+    <div>
+        <h2>Add Todo</h2>
+    </div>
+    <div x-data="{ todos: [], userInput: ''}">
+        <form x-on:submit.prevent>
+            <input x-model="userInput" placeholder="Enter Todo" type="text">
+            <button x-on:click="if(userInput.trim().length)
+            todos.push({name: userInput, completed: false}); userInput=''">Add</button>
+        </form>
+        <template x-for="todo in todos">
+            <div>
+                <input type="checkbox" x-model="todo.completed">
+                <span x-text="todo.name" x-bind:class="{'completed': todo.completed}"></span>
+                <button @click="todos = todos.filter((currTodo) => currTodo != todo)" class="delete">x</button>
+            </div>
+        </template>
+        <button x-show="todos.length" @click="todos = []; userInput =''">Clear All</button>
+        <div>
+            <span x-text="todos.filter((todo) => todo.completed).length"></span>/
+            <span x-text="todos.length"></span> todos completed
+        </div>
+
+    </div>
+
+    <h2>Increment Counter</h2>
+    <div x-data="{ count: 0 }">
+        <button x-on:click="count++">Increment</button>
+            <span x-text="count"></span>
+    </div>
+</body>
+</html>
